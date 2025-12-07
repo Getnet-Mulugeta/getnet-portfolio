@@ -37,8 +37,8 @@ function App() {
       <Navbar activeSection={activeSection} setActiveSection={setActiveSection} />
       <main className="relative z-0">
         <Home />
-        <Skills />
         <Projects />
+        <Skills />
         <Contact />
       </main>
     </div>
