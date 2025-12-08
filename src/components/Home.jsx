@@ -7,16 +7,27 @@ const Home = () => {
   const subtitleRef = useRef(null)
   const descriptionRef = useRef(null)
   const buttonRef = useRef(null)
+  const imageRef = useRef(null)
 
   useEffect(() => {
     const tl = gsap.timeline()
 
-    tl.from(titleRef.current, {
-      y: 50,
+    tl.from(imageRef.current, {
+      scale: 0,
       opacity: 0,
       duration: 1,
-      ease: 'power3.out',
+      ease: 'back.out(1.7)',
     })
+      .from(
+        titleRef.current,
+        {
+          y: 50,
+          opacity: 0,
+          duration: 1,
+          ease: 'power3.out',
+        },
+        '-=0.5'
+      )
       .from(
         subtitleRef.current,
         {
@@ -56,6 +67,15 @@ const Home = () => {
       yoyo: true,
       ease: 'power1.inOut',
     })
+
+    // Subtle floating animation for profile picture
+    gsap.to(imageRef.current, {
+      y: -10,
+      duration: 3,
+      repeat: -1,
+      yoyo: true,
+      ease: 'power1.inOut',
+    })
   }, [])
 
   return (
@@ -71,43 +91,87 @@ const Home = () => {
         <div className="floating absolute -bottom-8 left-1/2 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <h1
-          ref={titleRef}
-          className="text-5xl md:text-7xl font-bold mb-6 text-gradient drop-shadow-lg"
-          style={{ opacity: 1 }}
-        >
-          Hi, I'm a Developer
-        </h1>
-        <h2
-          ref={subtitleRef}
-          className="text-3xl md:text-5xl font-semibold mb-6 text-white drop-shadow-lg"
-          style={{ opacity: 1 }}
-        >
-          Full Stack Developer
-        </h2>
-        <p
-          ref={descriptionRef}
-          className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto mb-8 drop-shadow-md"
-          style={{ opacity: 1 }}
-        >
-          I create amazing web experiences with modern technologies. Passionate about
-          building scalable applications and beautiful user interfaces.
-        </p>
-        <div ref={buttonRef} style={{ opacity: 1 }}>
-          <button
-            onClick={() => {
-              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
-            }}
-            className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105"
-          >
-            Get In Touch
-          </button>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Left side - Text Content */}
+          <div className="text-center lg:text-left">
+            <h1
+              ref={titleRef}
+              className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 text-gradient drop-shadow-lg"
+              style={{ opacity: 1 }}
+            >
+              Hi, I'm Getnet
+            </h1>
+            <h2
+              ref={subtitleRef}
+              className="text-2xl md:text-4xl lg:text-5xl font-semibold mb-6 text-white drop-shadow-lg"
+              style={{ opacity: 1 }}
+            >
+              Full Stack Developer
+            </h2>
+            <p
+              ref={descriptionRef}
+              className="text-lg md:text-xl text-gray-200 mb-8 leading-relaxed"
+              style={{ opacity: 1 }}
+            >
+              I create amazing web experiences with modern technologies. Passionate about
+              building scalable applications and beautiful user interfaces.
+            </p>
+            <div ref={buttonRef} style={{ opacity: 1 }} className="flex gap-4 justify-center lg:justify-start">
+              <button
+                onClick={() => {
+                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+                }}
+                className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105"
+              >
+                Get In Touch
+              </button>
+              <button
+                onClick={() => {
+                  document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
+                }}
+                className="px-8 py-3 bg-transparent border-2 border-blue-500 text-blue-400 font-semibold rounded-lg hover:bg-blue-500 hover:text-white transition-all duration-300 transform hover:scale-105"
+              >
+                View Work
+              </button>
+            </div>
+          </div>
+
+          {/* Right side - Profile Picture */}
+          <div className="flex justify-center lg:justify-end">
+            <div className="relative">
+              {/* Gradient border effect */}
+              <div className="absolute -inset-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full blur-lg opacity-50 animate-pulse"></div>
+              
+              {/* Profile picture container */}
+              <div
+                ref={imageRef}
+                className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-gray-800 shadow-2xl"
+                style={{ opacity: 1 }}
+              >
+                {/* Placeholder for your picture - replace src with your image */}
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop"
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    // Fallback if image doesn't load
+                    e.target.style.display = 'none'
+                    e.target.parentElement.innerHTML = '<div class="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold">G</div>'
+                  }}
+                />
+              </div>
+
+              {/* Decorative elements */}
+              <div className="absolute -top-4 -right-4 w-24 h-24 bg-blue-500/20 rounded-full blur-xl"></div>
+              <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-purple-500/20 rounded-full blur-xl"></div>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce z-10">
         <svg
           className="w-6 h-6 text-gray-400"
           fill="none"
@@ -125,4 +189,3 @@ const Home = () => {
 }
 
 export default Home
-

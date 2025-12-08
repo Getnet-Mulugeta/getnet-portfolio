@@ -39,8 +39,9 @@ const Navbar = ({ activeSection, setActiveSection }) => {
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'projects', label: 'Projects' },
-    { id: 'contact', label: 'Contact' },
     { id: 'skills', label: 'Skills' },
+    { id: 'contact', label: 'Contact' },
+    
   ]
 
   return (
