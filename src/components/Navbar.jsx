@@ -38,35 +38,43 @@ const Navbar = ({ activeSection, setActiveSection }) => {
 
   const navItems = [
     { id: 'home', label: 'Home' },
-    { id: 'skills', label: 'Skills' },
     { id: 'projects', label: 'Projects' },
     { id: 'contact', label: 'Contact' },
+    { id: 'skills', label: 'Skills' },
   ]
 
   return (
     <nav
       ref={navRef}
-      className="fixed top-0 left-0 right-0 z-[100] bg-gray-900/95 backdrop-blur-lg border-b border-gray-700 shadow-lg"
+      className="fixed top-0 left-0 right-0 z-[100] bg-gray-900/90 backdrop-blur-xl shadow-2xl"
       style={{ opacity: 1, visibility: 'visible' }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           <div className="flex-shrink-0">
-            <h1 className="text-2xl font-bold text-gradient drop-shadow-lg">Portfolio</h1>
+            <button
+              onClick={() => handleNavClick('home')}
+              className="text-3xl font-bold text-gradient drop-shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer"
+            >
+              Getnet
+            </button>
           </div>
           <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-8">
+            <div className="ml-10 flex items-center space-x-2">
               {navItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className={`px-3 py-2 text-sm font-medium transition-all duration-300 ${
+                  className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg ${
                     activeSection === item.id
-                      ? 'text-blue-400 border-b-2 border-blue-400 font-semibold'
-                      : 'text-white hover:text-blue-400'
+                      ? 'text-white bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg shadow-blue-500/50'
+                      : 'text-gray-300 hover:text-white hover:bg-gray-800/50'
                   }`}
                 >
-                  {item.label}
+                  <span className="relative z-10">{item.label}</span>
+                  {activeSection === item.id && (
+                    <span className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg blur-sm opacity-50"></span>
+                  )}
                 </button>
               ))}
             </div>
@@ -75,7 +83,7 @@ const Navbar = ({ activeSection, setActiveSection }) => {
           <div className="md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-white hover:text-blue-400 transition-colors"
+              className="text-white hover:text-blue-400 transition-colors p-2 rounded-lg hover:bg-gray-800/50"
             >
               {mobileMenuOpen ? (
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -91,16 +99,16 @@ const Navbar = ({ activeSection, setActiveSection }) => {
         </div>
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-700 bg-gray-900/98">
-            <div className="px-2 pt-2 pb-3 space-y-1">
+          <div className="md:hidden bg-gray-900/98 backdrop-blur-xl pb-4">
+            <div className="px-2 pt-2 space-y-2">
               {navItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className={`block w-full text-left px-3 py-2 text-base font-medium transition-all duration-300 rounded-md ${
+                  className={`block w-full text-left px-4 py-3 text-base font-medium transition-all duration-300 rounded-lg ${
                     activeSection === item.id
-                      ? 'text-blue-400 bg-blue-500/20 font-semibold'
-                      : 'text-white hover:text-blue-400 hover:bg-gray-800'
+                      ? 'text-white bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg'
+                      : 'text-gray-300 hover:text-white hover:bg-gray-800/50'
                   }`}
                 >
                   {item.label}
