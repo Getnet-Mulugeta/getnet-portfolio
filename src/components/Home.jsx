@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
+import profileImage from '../assets/12 (2).jpg'
 
 const Home = () => {
   const homeRef = useRef(null)
@@ -10,53 +11,88 @@ const Home = () => {
   const imageRef = useRef(null)
 
   useEffect(() => {
+    // Set initial states to ensure visibility
+    if (imageRef.current) gsap.set(imageRef.current, { opacity: 1, scale: 1 })
+    if (titleRef.current) gsap.set(titleRef.current, { opacity: 1, y: 0 })
+    if (subtitleRef.current) gsap.set(subtitleRef.current, { opacity: 1, y: 0 })
+    if (descriptionRef.current) gsap.set(descriptionRef.current, { opacity: 1, y: 0 })
+    if (buttonRef.current) gsap.set(buttonRef.current, { opacity: 1, y: 0 })
+
     const tl = gsap.timeline()
 
-    // Animate image first
-    gsap.from(imageRef.current, {
-      scale: 0.8,
-      opacity: 0,
-      duration: 1,
-      ease: 'power3.out',
-    })
+    // Animate image first - faster
+    if (imageRef.current) {
+      gsap.from(imageRef.current, {
+        scale: 0.9,
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power2.out',
+        onComplete: () => {
+          if (imageRef.current) gsap.set(imageRef.current, { opacity: 1, scale: 1 })
+        }
+      })
+    }
 
-    // Animate text content
-    tl.from(titleRef.current, {
-      y: 30,
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power3.out',
-    })
-      .from(
+    // Animate text content - much faster
+    if (titleRef.current) {
+      tl.from(titleRef.current, {
+        y: 20,
+        opacity: 0,
+        duration: 0.4,
+        ease: 'power2.out',
+        onComplete: () => {
+          if (titleRef.current) gsap.set(titleRef.current, { opacity: 1, y: 0 })
+        }
+      })
+    }
+    
+    if (subtitleRef.current) {
+      tl.from(
         subtitleRef.current,
         {
-          y: 20,
+          y: 15,
           opacity: 0,
-          duration: 0.7,
-          ease: 'power3.out',
+          duration: 0.3,
+          ease: 'power2.out',
+          onComplete: () => {
+            if (subtitleRef.current) gsap.set(subtitleRef.current, { opacity: 1, y: 0 })
+          }
         },
-        '-=0.4'
+        '-=0.2'
       )
-      .from(
+    }
+    
+    if (descriptionRef.current) {
+      tl.from(
         descriptionRef.current,
         {
-          y: 20,
+          y: 15,
           opacity: 0,
-          duration: 0.7,
-          ease: 'power3.out',
+          duration: 0.3,
+          ease: 'power2.out',
+          onComplete: () => {
+            if (descriptionRef.current) gsap.set(descriptionRef.current, { opacity: 1, y: 0 })
+          }
         },
-        '-=0.4'
+        '-=0.2'
       )
-      .from(
+    }
+    
+    if (buttonRef.current) {
+      tl.from(
         buttonRef.current,
         {
-          y: 20,
+          y: 15,
           opacity: 0,
-          duration: 0.6,
-          ease: 'power3.out',
+          duration: 0.3,
+          ease: 'power2.out',
+          onComplete: () => {
+            if (buttonRef.current) gsap.set(buttonRef.current, { opacity: 1, y: 0 })
+          }
         },
-        '-=0.3'
+        '-=0.15'
       )
+    }
 
     // Subtle floating animation for profile picture
     gsap.to(imageRef.current, {
@@ -96,14 +132,14 @@ const Home = () => {
             </h1>
             <h2
               ref={subtitleRef}
-              className="text-2xl md:text-3xl lg:text-4xl font-semibold mb-6 text-gray-300"
+              className="text-2xl md:text-3xl lg:text-4xl font-semibold mb-6 text-gray-200"
               style={{ opacity: 1 }}
             >
               Full Stack Developer
             </h2>
             <p
               ref={descriptionRef}
-              className="text-base md:text-lg text-gray-400 mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0"
+              className="text-base md:text-lg text-gray-300 mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0"
               style={{ opacity: 1 }}
             >
               I create amazing web experiences with modern technologies. Passionate about
@@ -122,7 +158,7 @@ const Home = () => {
                 onClick={() => {
                   document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
                 }}
-                className="px-8 py-3 bg-transparent border-2 border-gray-700 hover:border-blue-500 text-gray-300 hover:text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105"
+                className="px-8 py-3 bg-transparent border-2 border-gray-600 hover:border-blue-500 text-gray-200 hover:text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105"
               >
                 View Work
               </button>
@@ -142,15 +178,17 @@ const Home = () => {
                 style={{ opacity: 1 }}
               >
                 <img
-                  src="https://via.placeholder.com/500x500/6366f1/ffffff?text=Your+Photo"
+                  src={profileImage}
                   alt="Getnet - Full Stack Developer"
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     e.target.style.display = 'none'
-                    const fallback = document.createElement('div')
-                    fallback.className = 'w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-6xl font-bold'
-                    fallback.textContent = 'G'
-                    e.target.parentElement.appendChild(fallback)
+                    if (!e.target.parentElement.querySelector('.fallback')) {
+                      const fallback = document.createElement('div')
+                      fallback.className = 'fallback w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-6xl font-bold'
+                      fallback.textContent = 'G'
+                      e.target.parentElement.appendChild(fallback)
+                    }
                   }}
                 />
               </div>

@@ -44,32 +44,38 @@ const Projects = () => {
       gsap.from(headerRef.current, {
         opacity: 0,
         y: -30,
-        duration: 1,
+        duration: 0.6,
         scrollTrigger: {
           trigger: headerRef.current,
           start: 'top 85%',
           toggleActions: 'play none none none',
           once: true,
         },
+        onComplete: () => {
+          if (headerRef.current) gsap.set(headerRef.current, { opacity: 1, y: 0 })
+        }
       })
     }
 
     projectsRef.current.forEach((project, index) => {
       if (project) {
-        gsap.set(project, { opacity: 1, y: 0 })
+        gsap.set(project, { opacity: 1, y: 0, scale: 1 })
         
         gsap.from(project, {
           opacity: 0,
           y: 60,
           scale: 0.9,
-          duration: 0.8,
-          delay: index * 0.15,
+          duration: 0.6,
+          delay: index * 0.1,
           scrollTrigger: {
             trigger: project,
             start: 'top 85%',
             toggleActions: 'play none none none',
             once: true,
           },
+          onComplete: () => {
+            if (project) gsap.set(project, { opacity: 1, y: 0, scale: 1 })
+          }
         })
 
         project.addEventListener('mouseenter', () => {
@@ -126,6 +132,7 @@ const Projects = () => {
               key={project.title}
               ref={(el) => (projectsRef.current[index] = el)}
               className="group relative bg-gray-800/60 backdrop-blur-md rounded-2xl overflow-hidden border border-gray-700/50 hover:border-blue-500/50 transition-all duration-500 cursor-pointer shadow-xl hover:shadow-2xl hover:shadow-blue-500/20"
+              style={{ opacity: 1 }}
             >
               {/* Gradient overlay on hover */}
               <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>

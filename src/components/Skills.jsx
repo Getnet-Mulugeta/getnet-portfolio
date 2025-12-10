@@ -37,32 +37,38 @@ const Skills = () => {
       gsap.from(headerRef.current, {
         opacity: 0,
         y: -30,
-        duration: 1,
+        duration: 0.6,
         scrollTrigger: {
           trigger: headerRef.current,
           start: 'top 85%',
           toggleActions: 'play none none none',
           once: true,
         },
+        onComplete: () => {
+          if (headerRef.current) gsap.set(headerRef.current, { opacity: 1, y: 0 })
+        }
       })
     }
 
     categoryRefs.current.forEach((category, index) => {
       if (category) {
-        gsap.set(category, { opacity: 1, y: 0 })
+        gsap.set(category, { opacity: 1, y: 0, scale: 1 })
         
         gsap.from(category, {
           opacity: 0,
           y: 40,
           scale: 0.95,
-          duration: 0.8,
-          delay: index * 0.15,
+          duration: 0.6,
+          delay: index * 0.1,
           scrollTrigger: {
             trigger: category,
             start: 'top 85%',
             toggleActions: 'play none none none',
             once: true,
           },
+          onComplete: () => {
+            if (category) gsap.set(category, { opacity: 1, y: 0, scale: 1 })
+          }
         })
       }
     })
@@ -99,6 +105,7 @@ const Skills = () => {
               key={category.title}
               ref={(el) => (categoryRefs.current[index] = el)}
               className="group relative bg-gray-800/60 backdrop-blur-md rounded-2xl p-8 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-blue-500/10"
+              style={{ opacity: 1 }}
             >
               {/* Background gradient on hover */}
               <div className={`absolute inset-0 bg-gradient-to-br ${category.bgGradient} opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity duration-500`}></div>

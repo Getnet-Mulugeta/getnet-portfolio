@@ -18,13 +18,16 @@ const Contact = () => {
       gsap.from(headerRef.current, {
         opacity: 0,
         y: -30,
-        duration: 1,
+        duration: 0.6,
         scrollTrigger: {
           trigger: headerRef.current,
           start: 'top 85%',
           toggleActions: 'play none none none',
           once: true,
         },
+        onComplete: () => {
+          if (headerRef.current) gsap.set(headerRef.current, { opacity: 1, y: 0 })
+        }
       })
     }
 
@@ -33,13 +36,16 @@ const Contact = () => {
       gsap.from(sectionRef.current, {
         opacity: 0,
         y: 50,
-        duration: 1,
+        duration: 0.6,
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top 85%',
           toggleActions: 'play none none none',
           once: true,
         },
+        onComplete: () => {
+          if (sectionRef.current) gsap.set(sectionRef.current, { opacity: 1, y: 0 })
+        }
       })
     }
 
@@ -48,14 +54,17 @@ const Contact = () => {
       gsap.from(formRef.current, {
         opacity: 0,
         scale: 0.95,
-        duration: 0.8,
-        delay: 0.2,
+        duration: 0.5,
+        delay: 0.1,
         scrollTrigger: {
           trigger: formRef.current,
           start: 'top 85%',
           toggleActions: 'play none none none',
           once: true,
         },
+        onComplete: () => {
+          if (formRef.current) gsap.set(formRef.current, { opacity: 1, scale: 1 })
+        }
       })
     }
   }, [])
@@ -108,7 +117,7 @@ const Contact = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
-          <div ref={formRef} className="bg-gray-800/60 backdrop-blur-md rounded-2xl p-8 border border-gray-700/50 shadow-xl">
+          <div ref={formRef} className="bg-gray-800/60 backdrop-blur-md rounded-2xl p-8 border border-gray-700/50 shadow-xl" style={{ opacity: 1 }}>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-semibold text-gray-300 mb-2">
